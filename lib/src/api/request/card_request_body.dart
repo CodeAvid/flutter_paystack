@@ -7,54 +7,54 @@ import 'package:flutter_paystack/src/common/crypto.dart';
 import 'package:flutter_paystack/src/models/charge.dart';
 
 class CardRequestBody extends BaseRequestBody {
-  static const String fieldClientData = "clientdata";
-  static const String fieldLast4 = "last4";
-  static const String fieldAccessCode = "access_code";
-  static const String fieldPublicKey = "public_key";
-  static const String fieldEmail = "email";
-  static const String fieldAmount = "amount";
-  static const String fieldReference = "reference";
-  static const String fieldSubAccount = "subaccount";
-  static const String fieldTransactionCharge = "transaction_charge";
-  static const String fieldBearer = "bearer";
-  static const String fieldHandle = "handle";
-  static const String fieldMetadata = "metadata";
-  static const String fieldCurrency = "currency";
-  static const String fieldPlan = "plan";
+  static const String fieldClientData = 'clientdata';
+  static const String fieldLast4 = 'last4';
+  static const String fieldAccessCode = 'access_code';
+  static const String fieldPublicKey = 'public_key';
+  static const String fieldEmail = 'email';
+  static const String fieldAmount = 'amount';
+  static const String fieldReference = 'reference';
+  static const String fieldSubAccount = 'subaccount';
+  static const String fieldTransactionCharge = 'transaction_charge';
+  static const String fieldBearer = 'bearer';
+  static const String fieldHandle = 'handle';
+  static const String fieldMetadata = 'metadata';
+  static const String fieldCurrency = 'currency';
+  static const String fieldPlan = 'plan';
 
-  String _clientData;
-  String? _last4;
+  final String _clientData;
+  final String? _last4;
   final String? _publicKey;
-  String? _accessCode;
-  String? _email;
-  String _amount;
-  String? _reference;
-  String? _subAccount;
-  String? _transactionCharge;
-  String? _bearer;
+  final String? _accessCode;
+  final String? _email;
+  final String _amount;
+  final String? _reference;
+  final String? _subAccount;
+  final String? _transactionCharge;
+  final String? _bearer;
   String? _handle;
-  String? _metadata;
-  String? _currency;
-  String? _plan;
-  Map<String, String?>? _additionalParameters;
+  final String? _metadata;
+  final String? _currency;
+  final String? _plan;
+  final Map<String, String?>? _additionalParameters;
 
   CardRequestBody._(this._publicKey, Charge charge, String clientData)
-      : this._clientData = clientData,
-        this._last4 = charge.card!.last4Digits,
-        this._email = charge.email,
-        this._amount = charge.amount.toString(),
-        this._reference = charge.reference,
-        this._subAccount = charge.subAccount,
-        this._transactionCharge =
+      : _clientData = clientData,
+        _last4 = charge.card!.last4Digits,
+        _email = charge.email,
+        _amount = charge.amount.toString(),
+        _reference = charge.reference,
+        _subAccount = charge.subAccount,
+        _transactionCharge =
             charge.transactionCharge != null && charge.transactionCharge! > 0
                 ? charge.transactionCharge.toString()
                 : null,
-        this._bearer = charge.bearer != null ? getBearer(charge.bearer) : null,
-        this._metadata = charge.metadata,
-        this._plan = charge.plan,
-        this._currency = charge.currency,
-        this._accessCode = charge.accessCode,
-        this._additionalParameters = charge.additionalParameters;
+        _bearer = charge.bearer != null ? getBearer(charge.bearer) : null,
+        _metadata = charge.metadata,
+        _plan = charge.plan,
+        _currency = charge.currency,
+        _accessCode = charge.accessCode,
+        _additionalParameters = charge.additionalParameters;
 
   static Future<CardRequestBody> getChargeRequestBody(
       String publicKey, Charge charge) async {
@@ -63,7 +63,7 @@ class CardRequestBody extends BaseRequestBody {
   }
 
   addPin(String pin) async {
-    this._handle = await Crypto.encrypt(pin);
+    _handle = await Crypto.encrypt(pin);
   }
 
   static String? getBearer(Bearer? bearer) {
@@ -71,10 +71,10 @@ class CardRequestBody extends BaseRequestBody {
     String? bearerStr;
     switch (bearer) {
       case Bearer.SubAccount:
-        bearerStr = "subaccount";
+        bearerStr = 'subaccount';
         break;
       case Bearer.Account:
-        bearerStr = "account";
+        bearerStr = 'account';
         break;
     }
     return bearerStr;

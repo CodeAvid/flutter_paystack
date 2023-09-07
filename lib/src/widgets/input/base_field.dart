@@ -12,7 +12,7 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? initialValue;
 
-  BaseTextField({
+  const BaseTextField({
     Key? key,
     this.suffix,
     this.labelText,
@@ -34,21 +34,21 @@ class BaseTextField extends StatelessWidget {
       maxLines: 1,
       initialValue: initialValue,
       keyboardType: TextInputType.number,
-      decoration: new InputDecoration(
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.grey, fontSize: 14.0),
         suffixIcon: suffix == null
             ? null
-            : new Padding(
+            : Padding(
                 padding: const EdgeInsetsDirectional.only(end: 12.0),
                 child: suffix,
               ),
         errorStyle: const TextStyle(fontSize: 12.0),
         errorMaxLines: 3,
         isDense: true,
-        enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey, width: 0.5)),
+        enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 0.5)),
         focusedBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(color: context.colorScheme().secondary, width: 1.0)),

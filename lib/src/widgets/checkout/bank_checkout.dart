@@ -22,7 +22,8 @@ class BankCheckout extends StatefulWidget {
   final BankServiceContract service;
   final String publicKey;
 
-  BankCheckout({
+  const BankCheckout({
+    super.key,
     required this.charge,
     required this.onResponse,
     required this.onProcessingChange,
@@ -31,11 +32,12 @@ class BankCheckout extends StatefulWidget {
   });
 
   @override
-  _BankCheckoutState createState() => _BankCheckoutState(onResponse);
+  BaseCheckoutMethodState<BankCheckout> createState() =>
+      _BankCheckoutState(onResponse);
 }
 
 class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
-  var _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   late AnimationController _controller;
   late Animation<double> _animation;
   var _autoValidate = AutovalidateMode.disabled;
@@ -50,10 +52,12 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
   @override
   void initState() {
     _futureBanks = widget.service.fetchSupportedBanks();
-    _controller = new AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
-    _animation = new Tween(begin: 0.7, end: 1.0).animate(
-      new CurvedAnimation(
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = Tween(begin: 0.7, end: 1.0).animate(
+      CurvedAnimation(
         parent: _controller,
         curve: Curves.ease,
       ),
@@ -72,18 +76,18 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
   Widget buildAnimatedChild() {
     return Container(
       alignment: Alignment.center,
-      child: new FutureBuilder<List<Bank>?>(
+      child: FutureBuilder<List<Bank>?>(
         future: _futureBanks,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           Widget widget;
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              widget = new Center(
-                child: new Container(
+              widget = Center(
+                child: Container(
                   width: 50.0,
                   height: 50.0,
                   margin: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: new CircularProgressIndicator(
+                  child: const CircularProgressIndicator(
                     strokeWidth: 3.0,
                   ),
                 ),
@@ -105,54 +109,52 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
   }
 
   Widget _getCompleteUI(List<Bank> banks) {
-    var container = new Container();
-    return new Container(
-      child: new Form(
-        autovalidateMode: _autoValidate,
-        key: _formKey,
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new SizedBox(
-              height: 10.0,
-            ),
+    var container = Container();
+    return Form(
+      autovalidateMode: _autoValidate,
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const SizedBox(
+            height: 10.0,
+          ),
+          _currentBank == null
+              ? const Icon(
+                  Icons.account_balance,
+                  size: 35.0,
+                )
+              : container,
+          _currentBank == null
+              ? const SizedBox(
+                  height: 20.0,
+                )
+              : container,
+          Text(
             _currentBank == null
-                ? new Icon(
-                    Icons.account_balance,
-                    size: 35.0,
-                  )
-                : container,
-            _currentBank == null
-                ? new SizedBox(
-                    height: 20.0,
-                  )
-                : container,
-            new Text(
-              _currentBank == null
-                  ? 'Choose your bank to start the payment'
-                  : 'Enter your acccount number',
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.0),
-            ),
-            new SizedBox(
-              height: 20.0,
-            ),
-            new DropdownButtonHideUnderline(
-                child: new InputDecorator(
+                ? 'Choose your bank to start the payment'
+                : 'Enter your account number',
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14.0),
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          DropdownButtonHideUnderline(
+            child: InputDecorator(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 isDense: true,
                 enabledBorder: const OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.grey, width: 0.5)),
+                  borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                ),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: context.colorScheme().secondary, width: 1.0)),
+                  borderSide: BorderSide(
+                      color: context.colorScheme().secondary, width: 1.0),
+                ),
                 hintText: 'Tap here to choose',
               ),
               isEmpty: _currentBank == null,
-              child: new DropdownButton<Bank>(
+              child: DropdownButton<Bank>(
                 value: _currentBank,
                 isDense: true,
                 onChanged: (Bank? newValue) {
@@ -162,44 +164,46 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
                   });
                 },
                 items: banks.map((Bank value) {
-                  return new DropdownMenuItem<Bank>(
+                  return DropdownMenuItem<Bank>(
                     value: value,
-                    child: new Text(value.name!),
+                    child: Text(value.name!),
                   );
                 }).toList(),
               ),
-            )),
-            new ScaleTransition(
-              scale: _animation,
-              child: _currentBank == null
-                  ? container
-                  : new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new SizedBox(
-                          height: 15.0,
-                        ),
-                        new AccountField(
-                            onSaved: (String? value) => _account =
-                                new BankAccount(_currentBank, value)),
-                        new SizedBox(
-                          height: 20.0,
-                        ),
-                        new AccentButton(
-                            onPressed: _validateInputs,
-                            showProgress: _loading,
-                            text: 'Verify Account')
-                      ],
-                    ),
             ),
-          ],
-        ),
+          ),
+          ScaleTransition(
+            scale: _animation,
+            child: _currentBank == null
+                ? container
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      AccountField(
+                        onSaved: (String? value) =>
+                            _account = BankAccount(_currentBank, value),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      AccentButton(
+                        onPressed: _validateInputs,
+                        showProgress: _loading,
+                        text: 'Verify Account',
+                      ),
+                    ],
+                  ),
+          ),
+        ],
       ),
     );
   }
 
   void _validateInputs() {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       form.save();
@@ -214,11 +218,11 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
 
   void _chargeAccount() async {
     final response = await BankTransactionManager(
-            charge: widget.charge,
-            service: widget.service,
-            context: context,
-            publicKey: widget.publicKey)
-        .chargeBank();
+      charge: widget.charge,
+      service: widget.service,
+      context: context,
+      publicKey: widget.publicKey,
+    ).chargeBank();
 
     if (!mounted) return;
 
@@ -228,14 +232,15 @@ class _BankCheckoutState extends BaseCheckoutMethodState<BankCheckout> {
 
   Widget retryButton() {
     banksMemo = null;
-    banksMemo = new AsyncMemoizer();
+    banksMemo = AsyncMemoizer();
     _futureBanks = widget.service.fetchSupportedBanks();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: new AccentButton(
-          onPressed: () => setState(() {}),
-          showProgress: false,
-          text: 'Display banks'),
+      child: AccentButton(
+        onPressed: () => setState(() {}),
+        showProgress: false,
+        text: 'Display banks',
+      ),
     );
   }
 

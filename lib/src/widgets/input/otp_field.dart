@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class OtpField extends TextFormField {
-  OtpField({FormFieldSetter<String>? onSaved, required Color borderColor})
+  OtpField({super.key, FormFieldSetter<String>? onSaved, required Color borderColor})
       : super(
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.none,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25.0,
           ),
@@ -15,14 +15,14 @@ class OtpField extends TextFormField {
           onSaved: onSaved,
           validator: (String? value) => value!.isEmpty ? 'Enter OTP' : null,
           obscureText: false,
-          decoration: new InputDecoration(
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
             isDense: true,
             hintText: 'ENTER',
             hintStyle: const TextStyle(color: Colors.grey, fontSize: 14.0),
             contentPadding: const EdgeInsets.all(10.0),
-            enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.grey, width: 0.5)),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 0.5)),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: borderColor, width: 1.0)),
           ),

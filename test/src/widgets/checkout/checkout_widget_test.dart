@@ -18,16 +18,16 @@ void main() {
   late String publicKey;
 
   setUp(() {
-    publicKey = Platform.environment["PAYSTACK_TEST_PUBLIC_KEY"] ?? "";
+    publicKey = Platform.environment['PAYSTACK_TEST_PUBLIC_KEY'] ?? '';
   });
-  group("$CheckoutWidget", () {
+  group('$CheckoutWidget', () {
     var charge = Charge()
       ..amount = 20000
-      ..currency = "USD"
+      ..currency = 'USD'
       ..email = 'customer@email.com';
 
-    group("custom logo", () {
-      testWidgets("is supplied", (tester) async {
+    group('custom logo', () {
+      testWidgets('is supplied', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -44,15 +44,15 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        expect(find.byKey(Key("Logo")), findsOneWidget);
-        expect(find.byKey(Key("PaystackBottomIcon")), findsOneWidget);
-        expect(find.byKey(Key("PaystackLogo")), findsOneWidget);
-        expect(find.byKey(Key("PaystackIcon")), findsNothing);
+        expect(find.byKey(const Key('Logo')), findsOneWidget);
+        expect(find.byKey(const Key('PaystackBottomIcon')), findsOneWidget);
+        expect(find.byKey(const Key('PaystackLogo')), findsOneWidget);
+        expect(find.byKey(const Key('PaystackIcon')), findsNothing);
         expect(find.byIcon(Icons.lock), findsOneWidget);
-        expect(find.byKey(Key("SecuredBy")), findsOneWidget);
+        expect(find.byKey(const Key('SecuredBy')), findsOneWidget);
       });
 
-      testWidgets("is not passed", (tester) async {
+      testWidgets('is not passed', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -69,17 +69,17 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        expect(find.byKey(Key("Logo")), findsNothing);
-        expect(find.byKey(Key("PaystackBottomIcon")), findsNothing);
-        expect(find.byKey(Key("PaystackIcon")), findsOneWidget);
-        expect(find.byKey(Key("PaystackLogo")), findsOneWidget);
+        expect(find.byKey(const Key('Logo')), findsNothing);
+        expect(find.byKey(const Key('PaystackBottomIcon')), findsNothing);
+        expect(find.byKey(const Key('PaystackIcon')), findsOneWidget);
+        expect(find.byKey(const Key('PaystackLogo')), findsOneWidget);
         expect(find.byIcon(Icons.lock), findsOneWidget);
-        expect(find.byKey(Key("SecuredBy")), findsOneWidget);
+        expect(find.byKey(const Key('SecuredBy')), findsOneWidget);
       });
     });
 
-    group("card", () {
-      testWidgets("card checkout is displayed for selectable method",
+    group('card', () {
+      testWidgets('card checkout is displayed for selectable method',
           (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
@@ -95,10 +95,10 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("CardCheckout")), findsOneWidget);
+        expect(find.byKey(const Key('CardCheckout')), findsOneWidget);
       });
 
-      testWidgets("card checkout is displayed for card method", (tester) async {
+      testWidgets('card checkout is displayed for card method', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -113,10 +113,10 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("CardCheckout")), findsOneWidget);
+        expect(find.byKey(const Key('CardCheckout')), findsOneWidget);
       });
 
-      testWidgets("card checkout is not displayed for bank method",
+      testWidgets('card checkout is not displayed for bank method',
           (tester) async {
         var bankService = MockedBankService();
 
@@ -137,12 +137,12 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("CardCheckout")), findsNothing);
+        expect(find.byKey(const Key('CardCheckout')), findsNothing);
       });
     });
 
-    group("email", () {
-      testWidgets("is displayed when `hideEmail` is false", (tester) async {
+    group('email', () {
+      testWidgets('is displayed when `hideEmail` is false', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -158,10 +158,10 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("ChargeEmail")), findsOneWidget);
+        expect(find.byKey(const Key('ChargeEmail')), findsOneWidget);
       });
 
-      testWidgets("is not displayed when `hideEmail` is true", (tester) async {
+      testWidgets('is not displayed when `hideEmail` is true', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -177,10 +177,10 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("ChargeEmail")), findsNothing);
+        expect(find.byKey(const Key('ChargeEmail')), findsNothing);
       });
 
-      testWidgets("is not displayed when no email is passed", (tester) async {
+      testWidgets('is not displayed when no email is passed', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -196,12 +196,12 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("ChargeEmail")), findsNothing);
+        expect(find.byKey(const Key('ChargeEmail')), findsNothing);
       });
     });
 
-    group("amount", () {
-      testWidgets("is displayed when `hideAmount` is false", (tester) async {
+    group('amount', () {
+      testWidgets('is displayed when `hideAmount` is false', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -217,10 +217,10 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("DisplayAmount")), findsOneWidget);
+        expect(find.byKey(const Key('DisplayAmount')), findsOneWidget);
       });
 
-      testWidgets("is not displayed when `hideAmount` is true", (tester) async {
+      testWidgets('is not displayed when `hideAmount` is true', (tester) async {
         final checkoutWidget = buildTestWidget(
           CheckoutWidget(
             publicKey: publicKey,
@@ -236,7 +236,7 @@ void main() {
 
         await tester.pumpWidget(checkoutWidget);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key("DisplayAmount")), findsNothing);
+        expect(find.byKey(const Key('DisplayAmount')), findsNothing);
       });
     });
   });

@@ -51,6 +51,7 @@ class CardService with BaseApiService implements CardServiceContract {
     }
   }
 
+  @override
   Future<TransactionApiResponse> reQueryTransaction(String? trans) async {
     var url = '$baseUrl/requery/$trans';
 

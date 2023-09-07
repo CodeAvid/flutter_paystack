@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class Utils {
   static const MethodChannel methodChannel =
-      const MethodChannel('plugins.wilburt/flutter_paystack');
+      MethodChannel('plugins.wilburt/flutter_paystack');
 
   static String getKeyErrorMsg(String keyType) {
     return 'Invalid $keyType key. You must use a valid $keyType key. Ensure that you '
@@ -17,13 +17,13 @@ class Utils {
           NumberFormat.currency(locale: locale, name: '$currency\u{0020}');
 
   static String formatAmount(num amountInBase) {
-    if (_currencyFormatter == null) throw "Currency formatter not initialized.";
+    if (_currencyFormatter == null) throw 'Currency formatter not initialized.';
     return _currencyFormatter!.format((amountInBase / 100));
   }
 
   /// Add double spaces after every 4th character
   static String addSpaces(String text) {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     for (int i = 0; i < text.length; i++) {
       buffer.write(text[i]);
       var nonZeroIndex = i + 1;

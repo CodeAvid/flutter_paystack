@@ -6,8 +6,8 @@ class CustomAnimatedWidget extends StatelessWidget {
   final Widget child;
 
   CustomAnimatedWidget(
-      {required this.child, required AnimationController controller})
-      : _animation = new CurvedAnimation(
+      {super.key, required this.child, required AnimationController controller})
+      : _animation = CurvedAnimation(
           parent: controller,
           curve: Curves.fastOutSlowIn,
         );
@@ -18,15 +18,15 @@ class CustomAnimatedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new FadeTransition(
+    return FadeTransition(
       opacity: _animation,
-      child: new SlideTransition(
+      child: SlideTransition(
         position: slideTween.animate(_animation),
-        child: new ScaleTransition(
+        child: ScaleTransition(
           scale: scaleTween.animate(_animation),
-          child: new Container(
+          child: Container(
             margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
-            child: new SafeArea(top: false, bottom: false, child: child),
+            child: SafeArea(top: false, bottom: false, child: child),
           ),
         ),
       ),
@@ -42,7 +42,7 @@ abstract class BaseAnimatedState<T extends StatefulWidget> extends BaseState<T>
   void initState() {
     super.initState();
     alwaysPop = true;
-    controller = new AnimationController(
+    controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );

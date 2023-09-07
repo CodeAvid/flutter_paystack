@@ -43,7 +43,7 @@ class CardTransactionManager extends BaseTransactionManager {
         return sendCharge();
       }
     } catch (e) {
-      if (!(e is ProcessingException)) {
+      if (e is! ProcessingException) {
         setProcessingOff();
       }
       return CheckoutResponse(
@@ -52,7 +52,7 @@ class CardTransactionManager extends BaseTransactionManager {
           status: false,
           card: charge.card?..nullifyNumber(),
           method: CheckoutMethod.card,
-          verify: !(e is PaystackException));
+          verify: e is! PaystackException);
     }
   }
 

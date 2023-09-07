@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:async/async.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_paystack/src/api/model/transaction_api_response.dart';
 import 'package:flutter_paystack/src/api/request/bank_charge_request_body.dart';
 import 'package:flutter_paystack/src/api/service/base_service.dart';
 import 'package:flutter_paystack/src/api/service/contracts/banks_service_contract.dart';
 import 'package:flutter_paystack/src/common/exceptions.dart';
+import 'package:flutter_paystack/src/common/extensions.dart';
 import 'package:flutter_paystack/src/common/my_strings.dart';
 import 'package:flutter_paystack/src/models/bank.dart';
-import 'package:flutter_paystack/src/common/extensions.dart';
 import 'package:http/http.dart' as http;
 
 class BankService with BaseApiService implements BankServiceContract {
@@ -25,7 +27,11 @@ class BankService with BaseApiService implements BankServiceContract {
       if (response.statusCode == HttpStatus.ok && status!) {
         return responseBody['data']['id'].toString();
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      }
+    }
     return null;
   }
 
@@ -62,7 +68,7 @@ class BankService with BaseApiService implements BankServiceContract {
     if (statusCode == HttpStatus.ok) {
       return TransactionApiResponse.fromMap(responseBody!);
     } else {
-      throw new ChargeException(Strings.unKnownResponse);
+      throw ChargeException(Strings.unKnownResponse);
     }
   }
 
@@ -81,12 +87,16 @@ class BankService with BaseApiService implements BankServiceContract {
       var data = body['data'];
       List<Bank> banks = [];
       for (var bank in data) {
-        banks.add(new Bank(bank['name'], bank['id']));
+        banks.add(Bank(bank['name'], bank['id']));
       }
       return banks;
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      }
+    }
     return null;
   }
 }
 
-AsyncMemoizer<List<Bank>?>? banksMemo = new AsyncMemoizer<List<Bank>?>();
+AsyncMemoizer<List<Bank>?>? banksMemo = AsyncMemoizer<List<Bank>?>();

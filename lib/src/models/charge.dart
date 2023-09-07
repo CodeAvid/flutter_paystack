@@ -37,17 +37,17 @@ class Charge {
   String? subAccount;
 
   Charge() {
-    this._metadata = {};
-    this.amount = -1;
-    this._additionalParameters = {};
-    this._customFields = [];
-    this._metadata!['custom_fields'] = this._customFields;
-    this.locale = Strings.nigerianLocale;
-    this.currency = Strings.ngn;
+    _metadata = {};
+    amount = -1;
+    _additionalParameters = {};
+    _customFields = [];
+    _metadata!['custom_fields'] = _customFields;
+    locale = Strings.nigerianLocale;
+    currency = Strings.ngn;
   }
 
   addParameter(String key, String value) {
-    this._additionalParameters![key] = value;
+    _additionalParameters![key] = value;
   }
 
   Map<String, String?>? get additionalParameters => _additionalParameters;
@@ -57,14 +57,14 @@ class Charge {
   set account(BankAccount? value) {
     if (value == null) {
       // Precaution to avoid setting of this field outside the library
-      throw new PaystackException('account cannot be null');
+      throw PaystackException('account cannot be null');
     }
     _account = value;
   }
 
   putMetaData(String name, dynamic value) {
-    this._metadata![name] = value;
-    this._hasMeta = true;
+    _metadata![name] = value;
+    _hasMeta = true;
   }
 
   putCustomField(String displayName, String value) {
@@ -72,10 +72,10 @@ class Charge {
       'value': value,
       'display_name': displayName,
       'variable_name':
-          displayName.toLowerCase().replaceAll(new RegExp(r'[^a-z0-9 ]'), "_")
+          displayName.toLowerCase().replaceAll(RegExp(r'[^a-z0-9 ]'), '_')
     };
-    this._customFields!.add(customMap);
-    this._hasMeta = true;
+    _customFields!.add(customMap);
+    _hasMeta = true;
   }
 
   String? get metadata {

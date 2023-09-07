@@ -1,11 +1,11 @@
 class StringUtils {
   static bool isEmpty(String? value) {
-    return value == null || value.length < 1 || value.toLowerCase() == "null";
+    return value == null || value.isEmpty || value.toLowerCase() == 'null';
   }
 
   static bool isValidEmail(String? email) {
     if (isEmpty(email)) return false;
-    RegExp regExp = new RegExp(_emailRegex);
+    RegExp regExp = RegExp(_emailRegex);
     return regExp.hasMatch(email!);
   }
 
@@ -20,10 +20,8 @@ class StringUtils {
   }
 }
 
-const _emailRegex = r"[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-    "\\@" +
-    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-    "(" +
-    "\\." +
-    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-    ")+";
+const _emailRegex = r'[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}'
+    '\\@'
+    '[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}'
+    '('
+    '\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+';

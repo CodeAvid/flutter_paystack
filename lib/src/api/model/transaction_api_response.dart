@@ -13,7 +13,7 @@ class TransactionApiResponse extends ApiResponse {
   }
 
   TransactionApiResponse.fromMap(Map<String, dynamic> map) {
-    this.reference = map['reference'];
+    reference = map['reference'];
     if (map.containsKey('trans')) {
       trans = map['trans'];
     } else if (map.containsKey('id')) {
@@ -47,7 +47,7 @@ class TransactionApiResponse extends ApiResponse {
   }
 
   bool hasValidUrl() {
-    if (otpMessage == null || otpMessage!.length == 0) {
+    if (otpMessage == null || otpMessage!.isEmpty) {
       return false;
     }
 

@@ -20,9 +20,9 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  group("$PaystackPlugin", () {
+  group('$PaystackPlugin', () {
     test('is properly initialized with passed key', () async {
-      var publicKey = Platform.environment["PAYSTACK_TEST_PUBLIC_KEY"] ?? "";
+      var publicKey = Platform.environment['PAYSTACK_TEST_PUBLIC_KEY'] ?? '';
       final plugin = PaystackPlugin();
       await plugin.initialize(publicKey: publicKey);
       expect(publicKey, plugin.publicKey);

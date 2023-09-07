@@ -3,15 +3,15 @@ import 'package:flutter_paystack/src/models/bank.dart';
 import 'package:flutter_paystack/src/models/charge.dart';
 
 class BankChargeRequestBody extends BaseRequestBody {
-  String _accessCode;
-  BankAccount _account;
+  final String _accessCode;
+  final BankAccount _account;
   String? _birthday;
   String? _token;
   String? transactionId;
 
   BankChargeRequestBody(Charge charge)
-      : this._accessCode = charge.accessCode!,
-        this._account = charge.account!;
+      : _accessCode = charge.accessCode!,
+        _account = charge.account!;
 
   Map<String, String?> tokenParams() => {fieldDevice: device, 'token': _token};
 

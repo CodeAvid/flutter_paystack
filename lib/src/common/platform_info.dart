@@ -11,11 +11,11 @@ class PlatformInfo {
   static Future<PlatformInfo> fromMethodChannel(MethodChannel channel) async {
     // TODO: Update for every new versions.
     //  And there should a better way to fucking do this
-    final pluginVersion = "1.0.5";
+    const pluginVersion = '1.0.7';
 
     final platform = Platform.operatingSystem;
-    String userAgent = "${platform}_Paystack_$pluginVersion";
-    String deviceId = await channel.invokeMethod('getDeviceId') ?? "";
+    String userAgent = '${platform}_Paystack_$pluginVersion';
+    String deviceId = await channel.invokeMethod('getDeviceId') ?? '';
     return PlatformInfo._(
       userAgent: userAgent,
       paystackBuild: pluginVersion,
@@ -24,12 +24,10 @@ class PlatformInfo {
   }
 
   const PlatformInfo._({
-    required String userAgent,
-    required String paystackBuild,
-    required String deviceId,
-  })   : userAgent = userAgent,
-        paystackBuild = paystackBuild,
-        deviceId = deviceId;
+    required this.userAgent,
+    required this.paystackBuild,
+    required this.deviceId,
+  });
 
   @override
   String toString() {

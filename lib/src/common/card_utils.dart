@@ -72,7 +72,7 @@ class CardUtils {
   static int? convertYearTo4Digits(int? year) {
     if (year == null) return 0;
     if (year < 100 && year >= 0) {
-      String prefix = "20";
+      String prefix = '20';
       year = int.parse('$prefix${year.toString().padLeft(2, '0')}');
     }
     return year;
@@ -83,7 +83,7 @@ class CardUtils {
     if (text == null) {
       return '';
     }
-    RegExp regExp = new RegExp(r"[^0-9]");
+    RegExp regExp = RegExp(r'[^0-9]');
     return text.replaceAll(regExp, '');
   }
 
@@ -92,7 +92,7 @@ class CardUtils {
   /// Note: The card details are not validated.
   static String concatenateCardFields(PaymentCard? card) {
     if (card == null) {
-      throw new CardException("Card cannot be null");
+      throw CardException('Card cannot be null');
     }
 
     String? number = StringUtils.nullify(card.number);
@@ -108,9 +108,9 @@ class CardUtils {
     ];
 
     if (!StringUtils.isEmpty(number)) {
-      return cardFields.join("*");
+      return cardFields.join('*');
     } else {
-      throw new CardException(
+      throw CardException(
           'Invalid card details: Card number is empty or null');
     }
   }
@@ -119,7 +119,7 @@ class CardUtils {
   /// the first number before the "/" and the last number after the "/
   static List<int> getExpiryDate(String? value) {
     if (value == null) return [-1, -1];
-    var split = value.split(new RegExp(r'(\/)'));
+    var split = value.split(RegExp(r'(\/)'));
     var month = int.tryParse(split[0]) ?? -1;
     if (split.length == 1) {
       return [month, -1];

@@ -14,15 +14,15 @@ import '../../common/widget_builder.dart';
 class MockedCardService extends Mock implements CardServiceContract {}
 
 void main() {
-  group("$CardCheckout", () {
-    String publicKey = Platform.environment["PAYSTACK_TEST_PUBLIC_KEY"] ?? "";
+  group('$CardCheckout', () {
+    String publicKey = Platform.environment['PAYSTACK_TEST_PUBLIC_KEY'] ?? '';
 
     final charge = Charge()
       ..amount = 20000
-      ..currency = "USD"
+      ..currency = 'USD'
       ..email = 'customer@email.com';
 
-    Utils.setCurrencyFormatter(charge.currency, "en_US");
+    Utils.setCurrencyFormatter(charge.currency, 'en_US');
 
     final checkoutWidget = buildTestWidget(
       CardCheckout(
@@ -35,36 +35,36 @@ void main() {
       ),
     );
 
-    group("input instruction", () {
-      testWidgets("displayed", (tester) async {
+    group('input instruction', () {
+      testWidgets('displayed', (tester) async {
         await tester.pumpWidget(checkoutWidget);
 
         await tester.pumpAndSettle();
 
-        expect(find.byKey(Key("InstructionKey")), findsOneWidget);
+        expect(find.byKey(const Key('InstructionKey')), findsOneWidget);
       });
     });
 
-    group("card input", () {
-      testWidgets("displayed", (tester) async {
+    group('card input', () {
+      testWidgets('displayed', (tester) async {
         await tester.pumpWidget(checkoutWidget);
 
         await tester.pumpAndSettle();
 
-        expect(find.byKey(Key("CardInput")), findsOneWidget);
+        expect(find.byKey(const Key('CardInput')), findsOneWidget);
       });
 
-      testWidgets("displays the correct amount when `hideAmount` is false",
+      testWidgets('displays the correct amount when `hideAmount` is false',
           (tester) async {
         await tester.pumpWidget(checkoutWidget);
 
         await tester.pumpAndSettle();
 
-        CardInput input = tester.widget(find.byKey(Key("CardInput")));
-        expect(input.buttonText, "Pay ${charge.currency} 200.00");
+        CardInput input = tester.widget(find.byKey(const Key('CardInput')));
+        expect(input.buttonText, 'Pay ${charge.currency} 200.00');
       });
 
-      testWidgets("displays the \"Continue\" when `hideAmount` is true",
+      testWidgets('displays the "Continue" when `hideAmount` is true',
           (tester) async {
         await tester.pumpWidget(buildTestWidget(CardCheckout(
           publicKey: publicKey,
@@ -78,8 +78,8 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        CardInput input = tester.widget(find.byKey(Key("CardInput")));
-        expect(input.buttonText, "Continue");
+        CardInput input = tester.widget(find.byKey(const Key('CardInput')));
+        expect(input.buttonText, 'Continue');
       });
     });
   });

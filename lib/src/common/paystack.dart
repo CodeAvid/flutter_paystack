@@ -17,7 +17,7 @@ import 'package:flutter_paystack/src/widgets/checkout/checkout_widget.dart';
 
 class PaystackPlugin {
   bool _sdkInitialized = false;
-  String _publicKey = "";
+  String _publicKey = '';
   static late PlatformInfo platformInfo;
 
   /// Initialize the Paystack object. It should be called as early as possible
@@ -31,14 +31,14 @@ class PaystackPlugin {
   initialize({required String publicKey}) async {
     assert(() {
       if (publicKey.isEmpty) {
-        throw new PaystackException('publicKey cannot be null or empty');
+        throw PaystackException('publicKey cannot be null or empty');
       }
       return true;
     }());
 
     if (sdkInitialized) return;
 
-    this._publicKey = publicKey;
+    _publicKey = publicKey;
 
     // Using cascade notation to build the platform specific info
     try {
@@ -50,7 +50,7 @@ class PaystackPlugin {
   }
 
   dispose() {
-    _publicKey = "";
+    _publicKey = '';
     _sdkInitialized = false;
   }
 
@@ -66,8 +66,8 @@ class PaystackPlugin {
     //validate that sdk has been initialized
     _validateSdkInitialized();
     //check for null value, and length and starts with pk_
-    if (_publicKey.isEmpty || !_publicKey.startsWith("pk_")) {
-      throw new AuthenticationException(Utils.getKeyErrorMsg('public'));
+    if (_publicKey.isEmpty || !_publicKey.startsWith('pk_')) {
+      throw AuthenticationException(Utils.getKeyErrorMsg('public'));
     }
   }
 
@@ -140,7 +140,7 @@ class PaystackPlugin {
 
   _validateSdkInitialized() {
     if (!sdkInitialized) {
-      throw new PaystackSdkNotInitializedException(
+      throw PaystackSdkNotInitializedException(
           'Paystack SDK has not been initialized. The SDK has'
           ' to be initialized before use');
     }
@@ -154,7 +154,7 @@ class _Paystack {
 
   Future<CheckoutResponse> chargeCard(
       {required BuildContext context, required Charge charge}) {
-    return new CardTransactionManager(
+    return CardTransactionManager(
             service: CardService(),
             charge: charge,
             context: context,
@@ -176,13 +176,13 @@ class _Paystack {
       switch (method) {
         case CheckoutMethod.card:
           if (charge.accessCode == null && charge.reference == null) {
-            throw new ChargeException(Strings.noAccessCodeReference);
+            throw ChargeException(Strings.noAccessCodeReference);
           }
           break;
         case CheckoutMethod.bank:
         case CheckoutMethod.selectable:
           if (charge.accessCode == null) {
-            throw new ChargeException('Pass an accesscode');
+            throw ChargeException('Pass an accesscode');
           }
           break;
       }
@@ -192,7 +192,7 @@ class _Paystack {
     CheckoutResponse? response = await showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (BuildContext context) => new CheckoutWidget(
+      builder: (BuildContext context) => CheckoutWidget(
         publicKey: publicKey,
         bankService: BankService(),
         cardsService: CardService(),
@@ -204,21 +204,21 @@ class _Paystack {
         hideEmail: hideEmail,
       ),
     );
-    return response == null ? CheckoutResponse.defaults() : response;
+    return response ?? CheckoutResponse.defaults();
   }
 
   _validateChargeAndKey(Charge charge) {
     if (charge.amount.isNegative) {
-      throw new InvalidAmountException(charge.amount);
+      throw InvalidAmountException(charge.amount);
     }
     if (!StringUtils.isValidEmail(charge.email)) {
-      throw new InvalidEmailException(charge.email);
+      throw InvalidEmailException(charge.email);
     }
   }
 }
 
-typedef void OnTransactionChange<Transaction>(Transaction transaction);
-typedef void OnTransactionError<Object, Transaction>(
+typedef OnTransactionChange<Transaction> = void Function(Transaction transaction);
+typedef OnTransactionError<Object, Transaction> = void Function(
     Object e, Transaction transaction);
 
 enum CheckoutMethod { card, bank, selectable }

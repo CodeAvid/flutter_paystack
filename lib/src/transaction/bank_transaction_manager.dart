@@ -15,12 +15,12 @@ class BankTransactionManager extends BaseTransactionManager {
   BankChargeRequestBody? chargeRequestBody;
   final BankServiceContract service;
 
-  BankTransactionManager(
-      {required this.service,
-      required Charge charge,
-      required BuildContext context,
-      required String publicKey})
-      : super(charge: charge, context: context, publicKey: publicKey);
+  BankTransactionManager({
+    required this.service,
+    required Charge charge,
+    required BuildContext context,
+    required String publicKey,
+  }) : super(charge: charge, context: context, publicKey: publicKey);
 
   Future<CheckoutResponse> chargeBank() async {
     await initiate();
@@ -29,7 +29,7 @@ class BankTransactionManager extends BaseTransactionManager {
 
   @override
   postInitiate() {
-    chargeRequestBody = new BankChargeRequestBody(charge);
+    chargeRequestBody = BankChargeRequestBody(charge);
   }
 
   @override
@@ -61,40 +61,45 @@ class BankTransactionManager extends BaseTransactionManager {
 
   @override
   Future<CheckoutResponse> handleApiResponse(
-      TransactionApiResponse response) async {
-    var auth = response.auth;
+    TransactionApiResponse apiResponse,
+  ) async {
+    var auth = apiResponse.auth;
 
-    if (response.status == 'success') {
+    if (apiResponse.status == 'success') {
       setProcessingOff();
       return onSuccess(transaction);
     }
 
     if (auth == 'failed' || auth == 'timeout') {
-      return notifyProcessingError(new ChargeException(response.message));
+      return notifyProcessingError(ChargeException(apiResponse.message));
     }
 
     if (auth == 'birthday') {
-      return getBirthdayFrmUI(response);
+      return getBirthdayFrmUI(apiResponse);
     }
 
     if (auth == 'payment_token' || auth == 'registration_token') {
-      return getOtpFrmUI(response: response);
+      return getOtpFrmUI(response: apiResponse);
     }
 
     return notifyProcessingError(
-        PaystackException(response.message ?? Strings.unKnownResponse));
+        PaystackException(apiResponse.message ?? Strings.unKnownResponse));
   }
 
   @override
   Future<CheckoutResponse> handleOtpInput(
-      String token, TransactionApiResponse? response) {
-    chargeRequestBody!.token = token;
+    String otp,
+    TransactionApiResponse? response,
+  ) {
+    chargeRequestBody!.token = otp;
     return _sendTokenToServer();
   }
 
   @override
   Future<CheckoutResponse> handleBirthdayInput(
-      String birthday, TransactionApiResponse response) {
+    String birthday,
+    TransactionApiResponse response,
+  ) {
     chargeRequestBody!.birthday = birthday;
     return _chargeAccount();
   }

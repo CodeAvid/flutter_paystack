@@ -12,7 +12,7 @@ class CardInput extends StatefulWidget {
   final PaymentCard? card;
   final ValueChanged<PaymentCard?> onValidated;
 
-  CardInput({
+  const CardInput({
     Key? key,
     required this.buttonText,
     required this.card,
@@ -20,22 +20,21 @@ class CardInput extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CardInputState createState() => _CardInputState(card);
+  State<CardInput> createState() => _CardInputState();
 }
 
 class _CardInputState extends State<CardInput> {
-  var _formKey = new GlobalKey<FormState>();
-  final PaymentCard? _card;
+  final _formKey = GlobalKey<FormState>();
+  late final PaymentCard? _card;
   var _autoValidate = AutovalidateMode.disabled;
   late TextEditingController numberController;
   bool _validated = false;
 
-  _CardInputState(this._card);
-
   @override
   void initState() {
     super.initState();
-    numberController = new TextEditingController();
+    _card = widget.card;
+    numberController = TextEditingController();
     numberController.addListener(_getCardTypeFrmNumber);
     if (_card?.number != null) {
       numberController.text = Utils.addSpaces(_card!.number!);
@@ -51,29 +50,29 @@ class _CardInputState extends State<CardInput> {
 
   @override
   Widget build(BuildContext context) {
-    return new Form(
+    return Form(
       autovalidateMode: _autoValidate,
       key: _formKey,
-      child: new Column(
+      child: Column(
         children: <Widget>[
-          new NumberField(
-            key: Key("CardNumberKey"),
+          NumberField(
+            key: const Key('CardNumberKey'),
             controller: numberController,
             card: _card,
             onSaved: (String? value) =>
                 _card!.number = CardUtils.getCleanedNumber(value),
             suffix: getCardIcon(),
           ),
-          new SizedBox(
+          const SizedBox(
             height: 15.0,
           ),
-          new Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              new Flexible(
-                child: new DateField(
-                  key: ValueKey("ExpiryKey"),
+              Flexible(
+                child: DateField(
+                  key: const ValueKey('ExpiryKey'),
                   card: _card,
                   onSaved: (value) {
                     List<int> expiryDate = CardUtils.getExpiryDate(value);
@@ -82,10 +81,10 @@ class _CardInputState extends State<CardInput> {
                   },
                 ),
               ),
-              new SizedBox(width: 15.0),
-              new Flexible(
-                  child: new CVCField(
-                key: Key("CVVKey"),
+              const SizedBox(width: 15.0),
+              Flexible(
+                  child: CVCField(
+                key: const Key('CVVKey'),
                 card: _card,
                 onSaved: (value) {
                   _card!.cvc = CardUtils.getCleanedNumber(value);
@@ -93,14 +92,15 @@ class _CardInputState extends State<CardInput> {
               )),
             ],
           ),
-          new SizedBox(
+          const SizedBox(
             height: 20.0,
           ),
-          new AccentButton(
-              key: Key("PayButton"),
-              onPressed: _validateInputs,
-              text: widget.buttonText,
-              showProgress: _validated),
+          AccentButton(
+            key: const Key('PayButton'),
+            onPressed: _validateInputs,
+            text: widget.buttonText,
+            showProgress: _validated,
+          ),
         ],
       ),
     );
@@ -110,12 +110,12 @@ class _CardInputState extends State<CardInput> {
     String input = CardUtils.getCleanedNumber(numberController.text);
     String cardType = _card!.getTypeForIIN(input);
     setState(() {
-      this._card!.type = cardType;
+      _card!.type = cardType;
     });
   }
 
   void _validateInputs() {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       form.save();
@@ -129,10 +129,10 @@ class _CardInputState extends State<CardInput> {
   }
 
   Widget getCardIcon() {
-    String img = "";
+    String img = '';
     var defaultIcon = Icon(
       Icons.credit_card,
-      key: Key("DefaultIssuerIcon"),
+      key: const Key('DefaultIssuerIcon'),
       size: 15.0,
       color: Colors.grey[600],
     );
@@ -165,7 +165,7 @@ class _CardInputState extends State<CardInput> {
     if (img.isNotEmpty) {
       widget = Image.asset(
         'assets/images/$img',
-        key: Key("IssuerIcon"),
+        key: const Key('IssuerIcon'),
         height: 15,
         width: 30,
         package: 'flutter_paystack',

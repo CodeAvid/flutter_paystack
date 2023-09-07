@@ -7,9 +7,9 @@ class Transaction {
 
   loadFromResponse(TransactionApiResponse t) {
     if (t.hasValidReferenceAndTrans()) {
-      this._reference = t.reference;
-      this._id = t.trans;
-      this._message = t.message;
+      _reference = t.reference;
+      _id = t.trans;
+      _message = t.message;
     }
   }
 
@@ -17,7 +17,7 @@ class Transaction {
 
   String? get id => _id;
 
-  String get message => _message ?? "";
+  String get message => _message ?? '';
 
   bool hasStartedOnServer() {
     return (reference != null) && (id != null);

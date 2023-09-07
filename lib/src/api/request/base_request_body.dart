@@ -14,6 +14,6 @@ abstract class BaseRequestBody {
 
   _setDeviceId() {
     String deviceId = PaystackPlugin.platformInfo.deviceId;
-    this._device = deviceId;
+    _device = deviceId;
   }
 }

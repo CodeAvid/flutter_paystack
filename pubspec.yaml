@@ -7,11 +7,12 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.1.0
-  intl: ^0.18.0
+  intl: ^0.18.1
   meta: ^1.9.1
-  async: ^2.9.0
+  async: ^2.11.0
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
   matcher: ^0.12.15
@@ -31,4 +32,4 @@ flutter:
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.3.0"
