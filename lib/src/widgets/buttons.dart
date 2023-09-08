@@ -21,13 +21,34 @@ class WhiteButton extends _BaseButton {
           child: child,
           iconData: iconData,
           textStyle: TextStyle(
-              fontSize: 14.0,
-              color: Colors.black87.withOpacity(0.8),
-              fontWeight: bold ? FontWeight.bold : FontWeight.normal),
+            fontSize: 14.0,
+            color: Colors.black87.withOpacity(0.8),
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+          ),
           color: Colors.white,
           borderSide: flat
               ? BorderSide.none
               : const BorderSide(color: Colors.grey, width: 0.5),
+        );
+}
+
+class CancelButton extends _BaseButton {
+  const CancelButton({
+    required VoidCallback? onPressed,
+    Widget? child,
+  }) : super(
+          onPressed: onPressed,
+          showProgress: false,
+          text: 'Cancel',
+          child: child,
+          iconData: null,
+          textStyle: const TextStyle(
+            fontSize: 14.0,
+            color: Color(0xFFB41010),
+            fontWeight: FontWeight.bold,
+          ),
+          color: Colors.white,
+          borderSide: BorderSide.none,
         );
 }
 
@@ -51,7 +72,10 @@ class AccentButton extends StatelessWidget {
       color: context.colorScheme().secondary,
       borderSide: BorderSide.none,
       textStyle: const TextStyle(
-          fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.bold),
+        fontSize: 14.0,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
       text: text,
     );
   }

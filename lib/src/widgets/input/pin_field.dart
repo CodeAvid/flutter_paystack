@@ -42,10 +42,14 @@ class _PinFieldState extends State<PinField> {
           ),
           contentPadding: const EdgeInsets.all(10.0),
           enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
+            borderSide: BorderSide(color: Colors.grey, width: 0.5),
+          ),
           focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: context.colorScheme().secondary, width: 1.0)),
+            borderSide: BorderSide(
+              color: context.colorScheme().secondary,
+              width: 1.0,
+            ),
+          ),
         ),
         onChanged: (String value) {
           if (value.length == widget.pinLength) {
