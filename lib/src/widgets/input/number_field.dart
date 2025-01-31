@@ -7,19 +7,15 @@ import 'package:flutter_paystack/src/widgets/common/input_formatters.dart';
 import 'package:flutter_paystack/src/widgets/input/base_field.dart';
 
 class NumberField extends BaseTextField {
-  NumberField(
-      {Key? key,
-      required PaymentCard? card,
-      required TextEditingController? controller,
-      required FormFieldSetter<String> onSaved,
-      required Widget suffix})
-      : super(
-          key: key,
+  NumberField({
+    super.key,
+    required PaymentCard? card,
+    required super.controller,
+    required FormFieldSetter<String> super.onSaved,
+    required Widget super.suffix,
+  }) : super(
           labelText: 'CARD NUMBER',
           hintText: '0000 0000 0000 0000',
-          controller: controller,
-          onSaved: onSaved,
-          suffix: suffix,
           validator: (String? value) => validateCardNum(value, card),
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,

@@ -22,7 +22,7 @@ class CardCheckout extends StatefulWidget {
   final String publicKey;
 
   const CardCheckout({
-    Key? key,
+    super.key,
     required this.charge,
     required this.onResponse,
     required this.onProcessingChange,
@@ -30,7 +30,7 @@ class CardCheckout extends StatefulWidget {
     required this.service,
     required this.publicKey,
     this.hideAmount = false,
-  }) : super(key: key);
+  });
 
   @override
   BaseCheckoutMethodState<CardCheckout> createState() =>

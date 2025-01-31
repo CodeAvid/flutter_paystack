@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_paystack/src/api/model/transaction_api_response.dart';
 import 'package:flutter_paystack/src/api/request/bank_charge_request_body.dart';
 import 'package:flutter_paystack/src/api/service/contracts/banks_service_contract.dart';
 import 'package:flutter_paystack/src/common/exceptions.dart';
 import 'package:flutter_paystack/src/common/my_strings.dart';
 import 'package:flutter_paystack/src/common/paystack.dart';
-import 'package:flutter_paystack/src/models/charge.dart';
 import 'package:flutter_paystack/src/models/checkout_response.dart';
 import 'package:flutter_paystack/src/transaction/base_transaction_manager.dart';
 
@@ -17,10 +15,10 @@ class BankTransactionManager extends BaseTransactionManager {
 
   BankTransactionManager({
     required this.service,
-    required Charge charge,
-    required BuildContext context,
-    required String publicKey,
-  }) : super(charge: charge, context: context, publicKey: publicKey);
+    required super.charge,
+    required super.context,
+    required super.publicKey,
+  });
 
   Future<CheckoutResponse> chargeBank() async {
     await initiate();

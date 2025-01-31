@@ -8,16 +8,14 @@ import 'package:flutter_paystack/src/widgets/input/base_field.dart';
 
 class DateField extends BaseTextField {
   DateField({
-    Key? key,
+    super.key,
     required PaymentCard? card,
-    required FormFieldSetter<String> onSaved,
+    required FormFieldSetter<String> super.onSaved,
   }) : super(
-          key: key,
           labelText: 'CARD EXPIRY',
           hintText: 'MM/YY',
           validator: validateDate,
           initialValue: _getInitialExpiryMonth(card),
-          onSaved: onSaved,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(4),

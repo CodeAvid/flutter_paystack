@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_paystack/src/api/model/transaction_api_response.dart';
 import 'package:flutter_paystack/src/api/request/card_request_body.dart';
 import 'package:flutter_paystack/src/api/request/validate_request_body.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_paystack/src/api/service/contracts/cards_service_contrac
 import 'package:flutter_paystack/src/common/exceptions.dart';
 import 'package:flutter_paystack/src/common/my_strings.dart';
 import 'package:flutter_paystack/src/common/paystack.dart';
-import 'package:flutter_paystack/src/models/charge.dart';
 import 'package:flutter_paystack/src/models/checkout_response.dart';
 import 'package:flutter_paystack/src/transaction/base_transaction_manager.dart';
 
@@ -18,14 +16,13 @@ class CardTransactionManager extends BaseTransactionManager {
   final CardServiceContract service;
   var _invalidDataSentRetries = 0;
 
-  CardTransactionManager(
-      {required Charge charge,
-      required this.service,
-      required BuildContext context,
-      required String publicKey})
-      : assert(charge.card != null,
-            'please add a card to the charge before ' 'calling chargeCard'),
-        super(charge: charge, context: context, publicKey: publicKey);
+  CardTransactionManager({
+    required super.charge,
+    required this.service,
+    required super.context,
+    required super.publicKey,
+  }) : assert(charge.card != null,
+            'please add a card to the charge before ' 'calling chargeCard');
 
   @override
   postInitiate() async {

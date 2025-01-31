@@ -248,13 +248,13 @@ class _CheckoutWidgetState extends BaseState<CheckoutWidget>
       duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
       child: Container(
-        color: context.colorScheme().background.withOpacity(0.5),
+        color: context.colorScheme().surface.withOpacity(0.5),
         height: _tabHeight,
         alignment: Alignment.center,
         child: TabBar(
           controller: _tabController,
           isScrollable: true,
-          unselectedLabelColor: context.colorScheme().onBackground,
+          unselectedLabelColor: context.colorScheme().onSurface,
           labelColor: accentColor,
           labelStyle:
               const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),

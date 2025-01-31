@@ -7,7 +7,7 @@ import 'package:flutter_paystack/src/widgets/common/extensions.dart';
 /// to retain the dialog feel and look while adding the close IconButton
 class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog({
-    Key? key,
+    super.key,
     this.title,
     this.titlePadding,
     this.onCancelPress,
@@ -15,7 +15,7 @@ class CustomAlertDialog extends StatelessWidget {
     this.expanded = false,
     this.fullscreen = false,
     required this.content,
-  }) : super(key: key);
+  });
 
   final Widget? title;
   final EdgeInsetsGeometry? titlePadding;
@@ -137,12 +137,12 @@ class CustomAlertDialog extends StatelessWidget {
 /// elevation and changing the Material type.
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
-    Key? key,
+    super.key,
     required this.child,
     required this.expanded,
     this.insetAnimationDuration = const Duration(milliseconds: 100),
     this.insetAnimationCurve = Curves.decelerate,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Duration insetAnimationDuration;

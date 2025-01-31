@@ -13,11 +13,11 @@ class CardInput extends StatefulWidget {
   final ValueChanged<PaymentCard?> onValidated;
 
   const CardInput({
-    Key? key,
+    super.key,
     required this.buttonText,
     required this.card,
     required this.onValidated,
-  }) : super(key: key);
+  });
 
   @override
   State<CardInput> createState() => _CardInputState();

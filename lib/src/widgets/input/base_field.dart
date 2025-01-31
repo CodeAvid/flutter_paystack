@@ -13,7 +13,7 @@ class BaseTextField extends StatelessWidget {
   final String? initialValue;
 
   const BaseTextField({
-    Key? key,
+    super.key,
     this.suffix,
     this.labelText,
     this.hintText,
@@ -22,7 +22,7 @@ class BaseTextField extends StatelessWidget {
     this.validator,
     this.controller,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

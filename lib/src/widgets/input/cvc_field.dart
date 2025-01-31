@@ -6,14 +6,12 @@ import 'package:flutter_paystack/src/widgets/input/base_field.dart';
 
 class CVCField extends BaseTextField {
   CVCField({
-    Key? key,
+    super.key,
     required PaymentCard? card,
-    required FormFieldSetter<String> onSaved,
+    required FormFieldSetter<String> super.onSaved,
   }) : super(
-          key: key,
           labelText: 'CVV',
           hintText: '123',
-          onSaved: onSaved,
           validator: (String? value) => validateCVC(value, card),
           initialValue:
               card != null && card.cvc != null ? card.cvc.toString() : null,

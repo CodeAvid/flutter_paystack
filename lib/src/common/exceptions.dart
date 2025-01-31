@@ -13,15 +13,15 @@ class PaystackException implements Exception {
 }
 
 class AuthenticationException extends PaystackException {
-  AuthenticationException(String message) : super(message);
+  AuthenticationException(String super.message);
 }
 
 class CardException extends PaystackException {
-  CardException(String message) : super(message);
+  CardException(String super.message);
 }
 
 class ChargeException extends PaystackException {
-  ChargeException(String? message) : super(message);
+  ChargeException(super.message);
 }
 
 class InvalidAmountException extends PaystackException {
@@ -39,7 +39,7 @@ class InvalidEmailException extends PaystackException {
 }
 
 class PaystackSdkNotInitializedException extends PaystackException {
-  PaystackSdkNotInitializedException(String message) : super(message);
+  PaystackSdkNotInitializedException(String super.message);
 }
 
 class ProcessingException extends ChargeException {

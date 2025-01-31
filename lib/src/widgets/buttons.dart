@@ -8,17 +8,14 @@ class WhiteButton extends _BaseButton {
   final bool bold;
 
   WhiteButton({
-    required VoidCallback? onPressed,
-    String? text,
-    Widget? child,
+    required super.onPressed,
+    super.text,
+    super.child,
     this.flat = false,
     this.bold = true,
     this.iconData,
   }) : super(
-          onPressed: onPressed,
           showProgress: false,
-          text: text,
-          child: child,
           iconData: iconData,
           textStyle: TextStyle(
             fontSize: 14.0,
@@ -34,13 +31,11 @@ class WhiteButton extends _BaseButton {
 
 class CancelButton extends _BaseButton {
   const CancelButton({
-    required VoidCallback? onPressed,
-    Widget? child,
+    required super.onPressed,
+    super.child,
   }) : super(
-          onPressed: onPressed,
           showProgress: false,
           text: 'Cancel',
-          child: child,
           iconData: null,
           textStyle: const TextStyle(
             fontSize: 14.0,
@@ -58,11 +53,11 @@ class AccentButton extends StatelessWidget {
   final bool showProgress;
 
   const AccentButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     this.showProgress = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
