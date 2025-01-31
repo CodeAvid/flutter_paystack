@@ -72,7 +72,7 @@ abstract class BaseTransactionManager {
     setProcessingOff();
 
     if (e is TimeoutException || e is SocketException) {
-      e = 'Please  check your internet connection or try again later';
+      e = 'Please check your internet connection or try again later';
     }
     return CheckoutResponse(
         message: e.toString(),
